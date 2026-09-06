@@ -30,9 +30,6 @@ var (
 func main() {
 
 	flag.Parse()
-	if *mntpt == "" {
-		*mntpt = "/n/ts9p"
-	}
 
 	if flag.Arg(0) == "" {
 		log.Fatal("tailcat address is missing")
