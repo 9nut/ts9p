@@ -11,8 +11,8 @@ import (
 	"slices"
 	"sync"
 
-        "9fans.net/go/plan9"
-        "9fans.net/go/plan9/srv9p"
+	"9fans.net/go/plan9"
+	"9fans.net/go/plan9/srv9p"
 	"github.com/tailscale/tailcat"
 )
 
@@ -25,7 +25,8 @@ func tsramfs() {
 	s := &tailcat.Server{
 		OnTCP: func(port uint16) func(net.Conn) {
 			if port != uint16(*portnbr) {
-				return nil }
+				return nil
+			}
 			return func(c net.Conn) {
 				srv := ramfsServer()
 				log.Println("Starting server")
@@ -64,7 +65,6 @@ type ramFile struct {
 	mu   sync.Mutex
 	data []byte
 }
-
 
 func ramfsServer() *srv9p.Server {
 	srv := &srv9p.Server{

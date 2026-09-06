@@ -5,7 +5,7 @@
 //
 // See TailScale tailcat for a full description:
 // https://tailscale.com/tailcat
-// 
+//
 
 package main
 
@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	port = flag.Int("p", 17007, "port number dial")
+	port  = flag.Int("p", 17007, "port number dial")
 	mntpt = flag.String("m", "/n/ts9p", "mountpoint")
 )
 
@@ -51,7 +51,7 @@ func main() {
 		log.Fatal(err)
 	}
 	f0, f1 := os.NewFile(uintptr(pip[0]), "|0"), os.NewFile(uintptr(pip[1]), "|1")
-	
+
 	// connect the ts channel to one side of the pipe
 	defer f0.Close()
 	go io.Copy(f0, c)
@@ -79,4 +79,3 @@ func main() {
 
 	runtime.UnlockOSThread()
 }
-

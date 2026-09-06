@@ -6,7 +6,7 @@
 //
 // See TailScale tailcat for a full description:
 // https://tailscale.com/tailcat
-// 
+//
 
 package main
 
@@ -24,9 +24,9 @@ import (
 
 var (
 	portnbr = flag.Int("p", 17007, "port number to listen on")
-	patf = flag.String("P", "", "pattern file")
-	root = flag.String("r", "./", "root of directory to serve")
-	msize = 1280 // Tailscale MTU (according the internet lore)
+	patf    = flag.String("P", "", "pattern file")
+	root    = flag.String("r", "./", "root of directory to serve")
+	msize   = 1280 // Tailscale MTU (according the internet lore)
 )
 
 func main() {
