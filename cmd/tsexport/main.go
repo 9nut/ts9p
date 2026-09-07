@@ -20,6 +20,7 @@ import (
 	"syscall"
 
 	"github.com/tailscale/tailcat"
+	"tailscale.com/types/logger"
 )
 
 var (
@@ -33,6 +34,7 @@ func main() {
 	flag.Parse()
 
 	s := &tailcat.Server{
+		Logf: logger.Discard,
 		OnTCP: func(port uint16) func(net.Conn) {
 			log.Println("OnTCP called")
 			if port != uint16(*portnbr) {

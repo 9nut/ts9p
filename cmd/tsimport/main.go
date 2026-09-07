@@ -12,6 +12,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -20,6 +21,7 @@ import (
 	"syscall"
 
 	"github.com/tailscale/tailcat"
+	"tailscale.com/types/logger"
 )
 
 var (
@@ -37,6 +39,8 @@ func main() {
 
 	cl := tailcat.NewClient(tailcat.Addr(flag.Arg(0)))
 	defer cl.Close()
+	cl.Logf = logger.Discard
+
 	c, err := cl.DialTCPPort(context.Background(), uint16(*port))
 	if err != nil {
 		log.Fatal(err)
@@ -63,7 +67,7 @@ func main() {
 	}
 	f1.Close()
 
-	log.Printf("The imported name space is mounted on %s\nDropping into a new rc session", *mntpt)
+	fmt.Printf("The imported name space is mounted on %s\nDropping into a new rc session\n", *mntpt)
 	cmd := exec.Command("rc", "-i")
 
 	cmd.Stdin = os.Stdin
@@ -73,6 +77,12 @@ func main() {
 	if err = cmd.Run(); err != nil {
 		log.Println("rc:", err)
 	}
+
+	if err = syscall.Unmount("", *mntpt); err != nil {
+		log.Println("unmount:", err)
+	}
+
+	log.Println("Releasing tailcat")
 
 	runtime.UnlockOSThread()
 }
